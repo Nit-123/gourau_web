@@ -8,6 +8,7 @@ import Landing from './sections/Landing/Landing';
 import Story from './sections/Story/Story';
 import CompleteReasons from './sections/Story/components/CompleteReasons';
 import CinematicTransition from './sections/Landing/CinematicTransition';
+import { pullFromSupabase } from './utils/supabaseSync';
 
 interface ErrorBoundaryProps {
   children?: ReactNode;
@@ -75,6 +76,9 @@ function AppContent() {
     };
 
     requestAnimationFrame(raf);
+
+    // Pull data from Supabase DB on startup
+    pullFromSupabase();
 
     return () => {
       window.removeEventListener('popstate', handlePopState);

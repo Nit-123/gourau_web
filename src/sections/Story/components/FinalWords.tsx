@@ -5,6 +5,7 @@ import { GlassCard } from '../../../components/ui/GlassCard';
 import { SectionWrapper } from '../../../components/common/SectionWrapper';
 import { UploadCircle } from '../../../components/ui/UploadCircle';
 import { useEditMode } from '../../../context/EditModeContext';
+import { syncToSupabase } from '../../../utils/supabaseSync';
 
 const defaultLetterText = `I've spent a long time thinking about what to say here. About how to put into words something that feels too big for words. About how to explain what you mean to me without it sounding like something you've heard before.
 
@@ -46,6 +47,7 @@ export const FinalWords: React.FC = () => {
       const base64 = reader.result as string;
       setFinalImage(base64);
       localStorage.setItem('final_image', base64);
+      syncToSupabase('final_image', base64);
     };
     reader.readAsDataURL(file);
   };
@@ -58,6 +60,7 @@ export const FinalWords: React.FC = () => {
   const handleSaveText = () => {
     setLetterText(tempLetterText);
     localStorage.setItem('final_letter_text', tempLetterText);
+    syncToSupabase('final_letter_text', tempLetterText);
     setIsEditingText(false);
   };
 

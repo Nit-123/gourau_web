@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SectionWrapper } from '../../../components/common/SectionWrapper';
 import { UploadCircle } from '../../../components/ui/UploadCircle';
+import { syncToSupabase } from '../../../utils/supabaseSync';
 
 interface BucketItem {
   id: number;
@@ -34,7 +35,9 @@ export const BucketList: React.FC = () => {
   const toggle = (id: number) => {
     const updated = items.map(i => i.id === id ? { ...i, completed: !i.completed } : i);
     setItems(updated);
-    localStorage.setItem('bucket_list_v2', JSON.stringify(updated));
+    const jsonString = JSON.stringify(updated);
+    localStorage.setItem('bucket_list_v2', jsonString);
+    syncToSupabase('bucket_list_v2', jsonString);
   };
 
   const completed = items.filter(i => i.completed).length;

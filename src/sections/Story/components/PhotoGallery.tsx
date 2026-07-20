@@ -4,6 +4,7 @@ import { Image as ImageIcon, Plus, X } from 'lucide-react';
 import { SectionWrapper } from '../../../components/common/SectionWrapper';
 import { UploadCircle } from '../../../components/ui/UploadCircle';
 import { useEditMode } from '../../../context/EditModeContext';
+import { syncToSupabase } from '../../../utils/supabaseSync';
 
 interface GallerySlot {
   id: number;
@@ -21,8 +22,11 @@ const defaultSlots: GallerySlot[] = [
   { id: 13, label: 'PHOTO_13', image: null },
 ];
 
-const save = (slots: GallerySlot[]) =>
-  localStorage.setItem('gallery_slots', JSON.stringify(slots));
+const save = (slots: GallerySlot[]) => {
+  const jsonString = JSON.stringify(slots);
+  localStorage.setItem('gallery_slots', jsonString);
+  syncToSupabase('gallery_slots', jsonString);
+};
 
 export const PhotoGallery: React.FC = () => {
   const { isEditMode } = useEditMode();

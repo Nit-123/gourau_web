@@ -4,6 +4,7 @@ import { Edit3, Check, Camera, Image as ImageIcon } from 'lucide-react';
 import { GlassCard } from '../../../components/ui/GlassCard';
 import { SectionWrapper } from '../../../components/common/SectionWrapper';
 import { useEditMode } from '../../../context/EditModeContext';
+import { syncToSupabase } from '../../../utils/supabaseSync';
 import { FloatingGlow } from '../../../components/effects/FloatingGlow';
 import { FloatingParticles } from '../../../components/effects/FloatingParticles';
 import { PrimaryButton } from '../../../components/ui/PrimaryButton';
@@ -48,6 +49,8 @@ export const LoveStoryHero: React.FC = () => {
   const handleSave = () => {
     localStorage.setItem('hero_heading', heading);
     localStorage.setItem('hero_subheading', subheading);
+    syncToSupabase('hero_heading', heading);
+    syncToSupabase('hero_subheading', subheading);
     setIsEditing(false);
   };
 
@@ -59,6 +62,7 @@ export const LoveStoryHero: React.FC = () => {
       const b64 = reader.result as string;
       setHeroImage(b64);
       localStorage.setItem('hero_image', b64);
+      syncToSupabase('hero_image', b64);
     };
     reader.readAsDataURL(file);
   };
@@ -141,21 +145,19 @@ export const LoveStoryHero: React.FC = () => {
         transition={{ duration: 0.8, delay: 0.4 }}
         className="w-full max-w-2xl mt-16 z-10 px-4"
       >
-        <GlassCard className="w-full p-6 md:p-8 flex flex-col items-center justify-center aspect-[16/10] overflow-hidden group relative shadow-[0_16px_50px_rgba(211,82,113,0.04)] border border-white/50 rounded-[2.5rem] bg-white/35 backdrop-blur-2xl">
+        <GlassCard className="w-full p-0 flex flex-col items-center justify-center aspect-[16/10] overflow-hidden group relative shadow-[0_16px_50px_rgba(211,82,113,0.04)] border border-white/50 rounded-[2.5rem] bg-white/35 backdrop-blur-2xl">
           {heroImage ? (
-            <div className="w-full h-full relative rounded-3xl overflow-hidden">
+            <div className="w-full h-full relative rounded-[2.5rem] overflow-hidden">
               <img src={heroImage} alt="Our Best Moment" className="w-full h-full object-cover" />
               {/* Replace overlay on hover — only when edit mode is active */}
-              {isEditMode && (
-                <label className="absolute inset-0 bg-black/35 backdrop-blur-[2px] flex flex-col items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Camera className="w-7 h-7 mb-2" />
-                  <span className="text-xs font-semibold uppercase tracking-wider">Replace Photo</span>
-                  <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleHeroUpload} className="hidden" />
-                </label>
-              )}
+              <label className="absolute inset-0 bg-black/35 backdrop-blur-[2px] flex flex-col items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <Camera className="w-7 h-7 mb-2" />
+                <span className="text-xs font-semibold uppercase tracking-wider">Replace Photo</span>
+                <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleHeroUpload} className="hidden" />
+              </label>
             </div>
           ) : (
-            <label className={`w-full h-full flex flex-col items-center justify-center gap-4 p-8 select-none ${isEditMode ? 'cursor-pointer group' : 'pointer-events-none'}`}>
+            <label className="w-full h-full flex flex-col items-center justify-center gap-4 p-8 select-none cursor-pointer group">
               <div className="w-10 h-10 flex items-center justify-center text-primary-pink bg-primary-pink/5 rounded-xl border border-primary-pink/10 shadow-[0_2px_8px_rgba(211,82,113,0.05)] group-hover:bg-primary-pink/10 transition-colors duration-200">
                 <ImageIcon className="w-5 h-5" />
               </div>
@@ -163,7 +165,7 @@ export const LoveStoryHero: React.FC = () => {
                 <span className="text-[10px] md:text-xs font-mono font-bold text-primary-pink tracking-widest uppercase">PHOTO_01</span>
                 <span className="text-[10px] md:text-xs text-text-secondary/60 font-light font-body">Hero Image — Replace with our best photo</span>
               </div>
-              {isEditMode && <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleHeroUpload} className="hidden" />}
+              <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleHeroUpload} className="hidden" />
             </label>
           )}
         </GlassCard>

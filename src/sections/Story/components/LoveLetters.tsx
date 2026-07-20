@@ -5,6 +5,7 @@ import { GlassCard } from '../../../components/ui/GlassCard';
 import { SectionWrapper } from '../../../components/common/SectionWrapper';
 import { UploadCircle } from '../../../components/ui/UploadCircle';
 import { useEditMode } from '../../../context/EditModeContext';
+import { syncToSupabase } from '../../../utils/supabaseSync';
 
 interface LetterItem {
   id: number;
@@ -99,7 +100,9 @@ export const LoveLetters: React.FC = () => {
         : l
     );
     setLetters(updated);
-    localStorage.setItem('love_letters_data', JSON.stringify(updated));
+    const jsonString = JSON.stringify(updated);
+    localStorage.setItem('love_letters_data', jsonString);
+    syncToSupabase('love_letters_data', jsonString);
     setEditingId(null);
   };
 

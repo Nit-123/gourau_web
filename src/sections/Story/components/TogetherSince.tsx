@@ -5,6 +5,7 @@ import { GlassCard } from '../../../components/ui/GlassCard';
 import { SectionWrapper } from '../../../components/common/SectionWrapper';
 import { UploadCircle } from '../../../components/ui/UploadCircle';
 import { useEditMode } from '../../../context/EditModeContext';
+import { syncToSupabase } from '../../../utils/supabaseSync';
 
 export const TogetherSince: React.FC = () => {
   const { isEditMode } = useEditMode();
@@ -30,6 +31,8 @@ export const TogetherSince: React.FC = () => {
   const handleSave = () => {
     localStorage.setItem('anniversary_date', anniversaryDate);
     localStorage.setItem('anniversary_quote', quote);
+    syncToSupabase('anniversary_date', anniversaryDate);
+    syncToSupabase('anniversary_quote', quote);
     setIsEditing(false);
   };
 

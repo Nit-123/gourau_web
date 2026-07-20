@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Camera } from 'lucide-react';
 import { useEditMode } from '../../context/EditModeContext';
+import { syncToSupabase } from '../../utils/supabaseSync';
 
 interface UploadCircleProps {
   storageKey: string;
@@ -33,6 +34,7 @@ export const UploadCircle: React.FC<UploadCircleProps> = ({
       const b64 = reader.result as string;
       setImage(b64);
       localStorage.setItem(storageKey, b64);
+      syncToSupabase(storageKey, b64);
     };
     reader.readAsDataURL(file);
     e.target.value = '';

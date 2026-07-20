@@ -4,6 +4,7 @@ import { GlassCard } from '../../../components/ui/GlassCard';
 import { SectionWrapper } from '../../../components/common/SectionWrapper';
 import { UploadCircle } from '../../../components/ui/UploadCircle';
 import { useEditMode } from '../../../context/EditModeContext';
+import { syncToSupabase } from '../../../utils/supabaseSync';
 
 interface TimelineItem {
   id: number;
@@ -56,7 +57,9 @@ export const MemoryTimeline: React.FC = () => {
   }, []);
 
   const saveToLocalStorage = (updated: TimelineItem[]) => {
-    localStorage.setItem('memory_timeline_cards', JSON.stringify(updated));
+    const jsonString = JSON.stringify(updated);
+    localStorage.setItem('memory_timeline_cards', jsonString);
+    syncToSupabase('memory_timeline_cards', jsonString);
   };
 
   const handleEditClick = (item: TimelineItem) => {
