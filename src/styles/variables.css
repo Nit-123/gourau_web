@@ -1,0 +1,13 @@
+:root {
+  --primary-pink: #d35271;
+  --primary-pink-hover: #b8435f;
+  --rose-gold: #e5b0b9;
+  --soft-white: #faf6f7;
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --glass-glow: 0 8px 32px 0 rgba(211, 82, 113, 0.12);
+  --text-primary: #4a3e40;
+  --text-secondary: #8e7a7d;
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}

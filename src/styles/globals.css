@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@import "./variables.css";
+@import "./animations.css";
+@import "./utilities.css";
+
+@theme {
+  --color-primary-pink: var(--primary-pink);
+  --color-primary-pink-hover: var(--primary-pink-hover);
+  --color-rose-gold: var(--rose-gold);
+  --color-soft-white: var(--soft-white);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+  --shadow-glass-glow: var(--glass-glow);
+  
+  --font-heading: "Outfit", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  background-color: var(--soft-white);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Outfit", sans-serif;
+}
